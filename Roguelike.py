@@ -2,10 +2,23 @@
 import libtcodpy as tcod
 import sqlite3
 
+#Opening database
+
 conn = sqlite3.connect('test.db')
 
 print ("Opened database successfully")
 
+#Request username, for now represented by a simple text input
+
+name = input("Please supply a username: ")
+
+#Final product will have four save slots
+
+conn.execute('''CREATE TABLE PLAYERONE
+         (ID NAME           TEXT    NOT NULL,
+         X            INT     NOT NULL,
+         Y            INT     NOT NULL,
+         HEALTH            INT     NOT NULL);''')
 FULLSCREEN = False
 SCREEN_WIDTH = 80  # characters wide
 SCREEN_HEIGHT = 50  # characters tall
