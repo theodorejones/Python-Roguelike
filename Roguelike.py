@@ -14,11 +14,15 @@ name = input("Please supply a username: ")
 
 #Final product will have four save slots
 
-conn.execute('''CREATE TABLE PLAYERONE
-         (ID NAME           TEXT    NOT NULL,
+try:
+    conn.execute('''CREATE TABLE PLAYERONE
+         (ID INT PRIMARY KEY     NOT NULL,
+         NAME           TEXT     NOT NULL,
          X            INT     NOT NULL,
          Y            INT     NOT NULL,
          HEALTH            INT     NOT NULL);''')
+except:
+    print("Welcome Back!")
 FULLSCREEN = False
 SCREEN_WIDTH = 80  # characters wide
 SCREEN_HEIGHT = 50  # characters tall
@@ -84,6 +88,10 @@ def main():
         tcod.console_put_char(0, player_x, player_y, '@', tcod.BKGND_NONE)
         tcod.console_flush()
         tcod.console_put_char(0, player_x, player_y, ' ', tcod.BKGND_NONE)
+        str_x=str(player_x)
+        str_y=str(player_y)
+        conn.execute("INSERT INTO PLAYERONE (ID,X,Y,HEALTH) \
+      VALUES (20, "+str_x+", "+str_y+", 40 )")
  
         exit_game = handle_keys()
  
