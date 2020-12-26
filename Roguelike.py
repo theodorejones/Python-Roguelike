@@ -10,7 +10,8 @@ print ("Opened database successfully")
 
 #Request username, for now represented by a simple text input
 
-name = input("Please supply a username: ")
+score = 0
+buffer = 0
 
 #Final product will have four save slots
 
@@ -41,7 +42,7 @@ def get_key_event(turn_based=None):
  
  
 def handle_keys():
-    global player_x, player_y
+    global player_x, player_y, score, buffer
  
     key = get_key_event(TURN_BASED)
  
@@ -55,15 +56,33 @@ def handle_keys():
     # movement keys
     if tcod.console_is_key_pressed(tcod.KEY_UP):
         player_y -= 1
+
+        if(buffer == 0):
+            score= score + 1
+            print("You have walked "+str(score)+" meters!")
+        else:
+            buffer = buffer + 1
  
     elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
         player_y += 1
+        buffer = buffer - 1
  
     elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
         player_x -= 1
  
     elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
         player_x += 1
+W=1
+F=2
+M=3
+room_0=[[W,W,F,F,W,W],
+        [W,F,F,W,F,W],
+        [W,W,M,F,F,W],
+        [W,F,F,M,W,W],
+        [W,F,W,F,F,W],
+        [W,W,F,F,W,W]]
+
+#dungeon to be assembled by placing rooms into an infinite-scroll array to be created at the top and destroyed at the bottom
  
 def main():
     # Setup player
