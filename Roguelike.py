@@ -13,6 +13,15 @@ print ("Opened database successfully")
 score = 0
 buffer = 0
 
+
+field=[]
+x_field = 20
+y_field = 20
+for y in range(y_field):
+    field.append([])
+    for x in range(x_field):
+        field[y].append(1)
+
 #Final product will have four save slots
 
 try:
@@ -43,6 +52,7 @@ def get_key_event(turn_based=None):
  
 def handle_keys():
     global player_x, player_y, score, buffer
+    global field, x_field, y_field
  
     key = get_key_event(TURN_BASED)
  
@@ -60,6 +70,9 @@ def handle_keys():
         if(buffer == 0):
             score= score + 1
             print("You have walked "+str(score)+" meters!")
+            field.pop()
+            field.insert(0,[2,2,2,2,2,2,2,2,2,2])
+            print(field)
         else:
             buffer = buffer + 1
  
@@ -72,15 +85,6 @@ def handle_keys():
  
     elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
         player_x += 1
-W=1
-F=2
-M=3
-room_0=[[W,W,F,F,W,W],
-        [W,F,F,W,F,W],
-        [W,W,M,F,F,W],
-        [W,F,F,M,W,W],
-        [W,F,W,F,F,W],
-        [W,W,F,F,W,W]]
 
 #dungeon to be assembled by placing rooms into an infinite-scroll array to be created at the top and destroyed at the bottom
  
