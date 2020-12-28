@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import libtcodpy as tcod
 import sqlite3
+from random import seed
+from random import randint
 
 #Opening database
 
@@ -71,7 +73,13 @@ def handle_keys():
             score= score + 1
             print("You have walked "+str(score)+" meters!")
             field.pop()
-            field.insert(0,[2,2,2,2,2,2,2,2,2,2])
+            row = []
+            for x in range(x_field):
+                row.append(1)
+            for x in range(5):
+                value = randint(0, x_field - 1)
+                row[value] = row[value]+1
+            field.insert(0, row)
             print(field)
         else:
             buffer = buffer + 1
