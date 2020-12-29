@@ -10,12 +10,11 @@ conn = sqlite3.connect('test.db')
 
 print ("Opened database successfully")
 
-#Request username, for now represented by a simple text input
-
+#Setup variables for score handling based on steps taken to progress
 score = 0
 buffer = 0
 
-
+#Setup a field into which to insert values
 field=[]
 x_field = 20
 y_field = 20
@@ -62,31 +61,29 @@ def handle_keys():
         # Alt+Enter: toggle fullscreen
         tcod.console_set_fullscreen(not tcod.console_is_fullscreen())
  
-    elif key.vk == tcod.KEY_ESCAPE:
-        return True  # exit game
- 
+    
     # movement keys
     if tcod.console_is_key_pressed(tcod.KEY_UP):
         player_y -= 1
 
-        if(buffer == 0):
+        if(buffer == 0):#If the next step takes the character further up the map
             score= score + 1
             print("You have walked "+str(score)+" meters!")
-            field.pop()
-            row = []
+            field.pop()#Remove last row
+            row = []#Create next row
             for x in range(x_field):
                 row.append(1)
-            for x in range(5):
+            for x in range(20):#Generate next row
                 value = randint(0, x_field - 1)
                 row[value] = row[value]+1
-            field.insert(0, row)
+            field.insert(0, row)#Insert next row at the top of the screen
             print(field)
-        else:
+        else:#If the character has moved backwards and is lagging behind
             buffer = buffer + 1
  
     elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
         player_y += 1
-        buffer = buffer - 1
+        buffer = buffer - 1#Detect whether the player is lagging behind by moving backwards
  
     elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
         player_x -= 1
@@ -94,8 +91,6 @@ def handle_keys():
     elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
         player_x += 1
 
-#dungeon to be assembled by placing rooms into an infinite-scroll array to be created at the top and destroyed at the bottom
- 
 def main():
     # Setup player
     global player_x, player_y
@@ -107,7 +102,7 @@ def main():
     tcod.console_set_custom_font(font_filename, tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)
  
     # Initialize screen
-    title = 'Python 3 + Libtcod tutorial'
+    title = 'DeliverRogue'
     tcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, title, FULLSCREEN)
  
     # Set FPS
@@ -116,9 +111,15 @@ def main():
     exit_game = False
     while not tcod.console_is_window_closed() and not exit_game:
         tcod.console_set_default_foreground(0, tcod.white)
-        tcod.console_put_char(0, player_x, player_y, '@', tcod.BKGND_NONE)
+        for y in range(y_field):
+            for x in range(x_field):
+                tcod.console_put_char(0, y, x, field[x][y], tcod.BKGND_NONE)
+        #tcod.console_put_char(0, player_x, player_y, '@', tcod.BKGND_NONE)
         tcod.console_flush()
-        tcod.console_put_char(0, player_x, player_y, ' ', tcod.BKGND_NONE)
+        #tcod.console_put_char(0, player_x, player_y, ' ', tcod.BKGND_NONE)
+        for y in range(y_field):
+            for x in range(x_field):
+                tcod.console_put_char(0, x, y, field[x][y], tcod.BKGND_NONE)
         str_x=str(player_x)
         str_y=str(player_y)
         conn.execute("INSERT INTO PLAYERONE (ID,X,Y,HEALTH) \
