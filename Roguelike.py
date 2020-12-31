@@ -49,6 +49,19 @@ def get_key_event(turn_based=None):
         # Real-time game play; don't wait for a player's key stroke
         key = tcod.console_check_for_keypress()
     return key
+
+def zombie():
+    global zombie_x, zombie_y
+    zombie_x = 2
+    zombie_y = 2
+    if(player_y < zombie_y):
+        print("The player is behind the zombie")
+    if(player_y > zombie_y):
+        print("The player is in front of the zombie")
+    if(player_x < zombie_x):
+        print("The player is to the left of the zombie")
+    if(player_x > zombie_x):
+        print("The player is to the right of the zombie")
  
  
 def handle_keys():
@@ -86,7 +99,7 @@ def handle_keys():
         field[player_x][player_y]=0
         if(player_x < x_field - 1):
             player_x += 1
-        buffer = buffer - 1#Detect whether the player is lagging behind by moving backwards
+            buffer = buffer - 1#Detect whether the player is lagging behind by moving backwards
         field[player_x][player_y]=2
         
     elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
