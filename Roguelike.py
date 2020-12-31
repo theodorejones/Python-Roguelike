@@ -64,11 +64,9 @@ def handle_keys():
     
     # movement keys
     if tcod.console_is_key_pressed(tcod.KEY_UP):
-        player_y -= 1
-
+        field[player_x][player_y]=0
         if(buffer == 0):#If the next step takes the character further up the map
             score= score + 1
-            print("You have walked "+str(score)+" meters!")
             field.pop()#Remove last row
             row = []#Create next row
             for x in range(x_field):
@@ -76,26 +74,38 @@ def handle_keys():
             for x in range(20):#Generate next row
                 value = randint(0, x_field - 1)
                 row[value] = row[value]+1
+                if(row[value] == 2):
+                    row[value]=row[value]+1
             field.insert(0, row)#Insert next row at the top of the screen
-            print(field)
         else:#If the character has moved backwards and is lagging behind
             buffer = buffer + 1
+            player_x -= 1
+        field[player_x][player_y]=2
  
     elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
-        player_y += 1
+        field[player_x][player_y]=0
+        if(player_x < x_field - 1):
+            player_x += 1
         buffer = buffer - 1#Detect whether the player is lagging behind by moving backwards
- 
+        field[player_x][player_y]=2
+        
     elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
-        player_x -= 1
+        field[player_x][player_y]=0
+        if(player_y > 0):
+            player_y -= 1
+        field[player_x][player_y]=2
  
     elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
-        player_x += 1
+        field[player_x][player_y]=0
+        if(player_y < y_field - 1):
+            player_y += 1
+        field[player_x][player_y]=2
 
 def main():
     # Setup player
     global player_x, player_y
-    player_x = SCREEN_WIDTH // 2
-    player_y = SCREEN_HEIGHT // 2
+    player_x = x_field // 2
+    player_y = y_field // 2
  
     # Setup Font
     font_filename = 'dejavu10x10_gs_tc.png'
