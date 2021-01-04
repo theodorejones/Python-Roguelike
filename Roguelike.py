@@ -22,6 +22,13 @@ for y in range(y_field):
     field.append([])
     for x in range(x_field):
         field[y].append(1)
+world=[]
+x_world = 20
+y_world = 20
+for y in range(y_world):
+    world.append([])
+    for x in range(x_world):
+        world[y].append(1)
 
 #Final product will have four save slots
 
@@ -67,7 +74,8 @@ def zombie():
 def handle_keys():
     global player_x, player_y, score, buffer
     global field, x_field, y_field
- 
+    global world, x_world, y_world
+    
     key = get_key_event(TURN_BASED)
  
     if key.vk == tcod.KEY_ENTER and key.lalt:
@@ -84,11 +92,19 @@ def handle_keys():
             row = []#Create next row
             for x in range(x_field):
                 row.append(1)
-            for x in range(20):#Generate next row
+            dev = randint(1,5)
+            prev = randint(0, x_field)
+            max = randint(3,10)
+            for x in range(randint(10,50)):#Generate next row
                 value = randint(0, x_field - 1)
-                row[value] = row[value]+1
-                if(row[value] == 2):
-                    row[value]=row[value]+1
+                if(value > prev - dev):
+                    if(value < prev + dev):
+                        if(row[value] < max):
+                            row[value] = row[value]+1
+                            if(row[value] == 2):
+                                row[value]=row[value]+1
+                else:
+                    x = x + 1
             field.insert(0, row)#Insert next row at the top of the screen
         else:#If the character has moved backwards and is lagging behind
             buffer = buffer + 1
