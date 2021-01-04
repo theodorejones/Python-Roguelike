@@ -23,12 +23,17 @@ for y in range(y_field):
     for x in range(x_field):
         field[y].append(1)
 world=[]
-x_world = 20
-y_world = 20
+x_world = 200
+y_world = 200
 for y in range(y_world):
     world.append([])
     for x in range(x_world):
         world[y].append(1)
+for x in range(100): #Generate 100 points on a map
+    r = randint(0, x_world - 1)
+    c = randint(0, y_world - 1)
+    if(world[r][c] == 1):
+        world[r][c] = 2
 
 #Final product will have four save slots
 
