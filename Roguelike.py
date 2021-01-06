@@ -22,18 +22,7 @@ for y in range(y_field):
     field.append([])
     for x in range(x_field):
         field[y].append(1)
-world=[]
-x_world = 200
-y_world = 200
-for y in range(y_world):
-    world.append([])
-    for x in range(x_world):
-        world[y].append(1)
-for x in range(100): #Generate 100 points on a map
-    r = randint(0, x_world - 1)
-    c = randint(0, y_world - 1)
-    if(world[r][c] == 1):
-        world[r][c] = 2
+
 
 #Final product will have four save slots
 
@@ -93,6 +82,9 @@ def handle_keys():
         field[player_x][player_y]=0
         if(buffer == 0):#If the next step takes the character further up the map
             score= score + 1
+            if(score > 50):
+                print("User has entered the next biome!")
+                score = 0
             field.pop()#Remove last row
             row = []#Create next row
             for x in range(x_field):
