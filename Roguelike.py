@@ -12,6 +12,7 @@ for y in range(y_field):
     field.append([])
     for x in range(x_field):
         field[y].append(1)
+health = 100
 
 FULLSCREEN = False
 SCREEN_WIDTH = 80  # characters wide
@@ -32,6 +33,7 @@ def get_key_event(turn_based=None):
 def handle_keys():
     global player_x, player_y
     global field, x_field, y_field
+    global health
     
     key = get_key_event(TURN_BASED)
  
@@ -43,34 +45,38 @@ def handle_keys():
     # movement keys
     if tcod.console_is_key_pressed(tcod.KEY_UP):
         if(player_y > 0):
-            field[player_x][player_y]=0
+            health = health - field[player_x][player_y - 1]
+            field[player_x][player_y]=randint(1,9)
             player_y -= 1
-            field[player_x][player_y]=2
+            field[player_x][player_y]=0
  
     elif tcod.console_is_key_pressed(tcod.KEY_DOWN):
         if(player_y < y_field - 1):
-            field[player_x][player_y]=0
+            health = health - field[player_x][player_y + 1]
+            field[player_x][player_y]=randint(1,9)
             player_y += 1
-            field[player_x][player_y]=2
+            field[player_x][player_y]=0
         
     elif tcod.console_is_key_pressed(tcod.KEY_LEFT):
         if(player_x > 0):
-            field[player_x][player_y]=0
+            health = health - field[player_x - 1][player_y]
+            field[player_x][player_y]=randint(1,9)
             player_x -= 1
-            field[player_x][player_y]=2
+            field[player_x][player_y]=0
  
     elif tcod.console_is_key_pressed(tcod.KEY_RIGHT):
         if(player_x < x_field - 1):
-            field[player_x][player_y]=0
+            health = health - field[player_x + 1][player_y]
+            field[player_x][player_y]=randint(1,9)
             player_x += 1
-            field[player_x][player_y]=2
+            field[player_x][player_y]=0
 
 def main():
     # Setup player
-    global player_x, player_y
+    global player_x, player_y, health
     player_x = x_field // 2
     player_y = y_field // 2
-    field[player_x][player_y] = 2
+    field[player_x][player_y] = 0
     # Setup Font
     font_filename = 'dejavu10x10_gs_tc.png'
     tcod.console_set_custom_font(font_filename, tcod.FONT_TYPE_GREYSCALE | tcod.FONT_LAYOUT_TCOD)
@@ -87,18 +93,43 @@ def main():
         tcod.console_set_default_foreground(0, tcod.white)
         for y in range(y_field):
             for x in range(x_field):
-                if(field[x][y] == 2):
+                if(field[x][y] == 0):
                     tcod.console_put_char(0, player_x, player_y, '@', tcod.BKGND_NONE)
                 else:
-                    tcod.console_put_char(0, x, y, field[x][y], tcod.BKGND_NONE)
+                    tcod.console_put_char(0, x, y, str(field[x][y]), tcod.BKGND_NONE)
+        try:
+            tcod.console_put_char(0, 0, x_field + 1, str(health)[0], tcod.BKGND_NONE)
+        except:
+            tcod.console_put_char(0, 0, x_field + 1, "X", tcod.BKGND_NONE)
+        try:
+            tcod.console_put_char(0, 1, x_field + 1, str(health)[1], tcod.BKGND_NONE)
+        except:
+            tcod.console_put_char(0, 0, x_field + 1, "X", tcod.BKGND_NONE)
+        try:
+            tcod.console_put_char(0, 2, x_field + 1, str(health)[2], tcod.BKGND_NONE)
+        except:
+            tcod.console_put_char(0, 0, x_field + 1, "X", tcod.BKGND_NONE)
         tcod.console_flush()
         #tcod.console_put_char(0, player_x, player_y, ' ', tcod.BKGND_NONE)
         for y in range(y_field):
             for x in range(x_field):
-                if(field[x][y] == 2):
+                if(field[x][y] == 0):
                     tcod.console_put_char(0, player_x, player_y, '@', tcod.BKGND_NONE)
                 else:
-                    tcod.console_put_char(0, x, y, field[x][y], tcod.BKGND_NONE)
+                    tcod.console_put_char(0, x, y, str(field[x][y]), tcod.BKGND_NONE)
+        try:
+            tcod.console_put_char(0, 0, x_field + 1, str(health)[0], tcod.BKGND_NONE)
+        except:
+            tcod.console_put_char(0, 0, x_field + 1, "X", tcod.BKGND_NONE)
+        try:
+            tcod.console_put_char(0, 1, x_field + 1, str(health)[1], tcod.BKGND_NONE)
+        except:
+            tcod.console_put_char(0, 0, x_field + 1, "X", tcod.BKGND_NONE)
+        try:
+            tcod.console_put_char(0, 2, x_field + 1, str(health)[2], tcod.BKGND_NONE)
+        except:
+            tcod.console_put_char(0, 0, x_field + 1, "X", tcod.BKGND_NONE)
+        
  
         exit_game = handle_keys()
  
