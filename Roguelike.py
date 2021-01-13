@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 import libtcodpy as tcod
+import pygame
 import sqlite3
 from random import seed
 from random import randint
+pygame.init()
+clock = pygame.time.Clock()
+font = pygame.font.SysFont(None, 25)
 
 #Setup a field into which to insert values
 field=[]
