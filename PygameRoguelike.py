@@ -1,60 +1,55 @@
 import pygame
-
+from random import randint
 pygame.init()
-x_field = 3
-y_field = 3
+x_field = 7
+y_field = 1
 pixel = 128
-display_width = x_field * pixel
-display_height = y_field * pixel
+display_width = 7 * pixel
+display_height = 3 * pixel
 
 black = (0,0,0)
 white = (255,255,255)
 red = (255,0,0)
 
-car_width = 73
-car_height = 73
-
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Will Of The Dungeon')
 clock = pygame.time.Clock()
 
+captain = pygame.image.load('captain.png')
 person = pygame.image.load('person.png')
-monster = pygame.image.load('monster.png')
-sword = pygame.image.load('sword.png')
-shield = pygame.image.load('shield.png')
-wall = pygame.image.load('wall.png')
-
+ship = pygame.image.load('ship.png')
+cannon = pygame.image.load('cannon.png')
+chest = pygame.image.load('chest.png')
+wheel = pygame.image.load('wheel.png')
 def player(x,y):
     gameDisplay.blit(person,(x,y))
 
 field=[]
 for x in range(x_field):
-    for y in range(y_field):
-        field.append(0)
-#ID, health, and attack, in that order, per square
+    field.append(0)
+field[3]=1
 
+start = True
 def swap(field, pos1, pos2):
-    print(field)
     field[pos1],field[pos2]=field[pos2],field[pos1]
-    print(field)
     return field
 
 def game_loop():
     global field
-    x=1
-    y=1
-    print(x)
-    print(y)
-    pos=y*x_field+x
-    field[pos]=1
-    print(pos)
-    print(field)
-
+    global start
     gameExit = False
     pressed = False
 
     while not gameExit:
-
+        if(start == True):
+            for x in range(x_field):
+                if(field[x] == 1):
+                    print("Player")
+                else:
+                    print("Generating...")
+                    field[x] = randint(2,6)
+                    print(field[x])
+            start = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 gameExit = True
@@ -62,59 +57,34 @@ def game_loop():
             try:
                 if event.type == pygame.KEYDOWN and pressed == False:
                     if event.key == pygame.K_LEFT:
-                        field=swap(field,pos,pos-1)
-                        x=x-1
-                        print(x)
-                        print(y)
-                        pos=(y*x_field-1)+x
-                        print(pos)
-                        print(field)
+                        print("Left")
                     if event.key == pygame.K_RIGHT:
-                        field=swap(field,pos,pos+1)
-                        x=x+1
-                        print(x)
-                        print(y)
-                        pos=(y*x_field-1)+x
-                        print(pos)
-                        print(field)
-                    if event.key == pygame.K_UP:
-                        field=swap(field,pos,pos-x_field)
-                        y=y-1
-                        print(x)
-                        print(y)
-                        pos=(y*x_field-1)+x
-                        print(pos)
-                        print(field)
-                    if event.key == pygame.K_DOWN:
-                        field=swap(field,pos,pos+x_field)
-                        y=y+1
-                        print(x)
-                        print(y)
-                        pos=(y*x_field-1)+x
-                        print(pos)
-                        print(field)
+                        print("Right")
                     pressed = True
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                         pressed = False
-                    if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                        pressed = False
             except:
                 print("Boundary")
         gameDisplay.fill(white)
-        for x in range(x_field):
-            for y in range(y_field):
-                pos=(y*x_field-1)+x
-                if(field[pos] == 1):
-                    gameDisplay.blit(person,(128*x,128*y))
-
-        if x > display_width - car_width or x < 0:
-            gameExit = True
-        if y > display_height - car_height or y < 0:
-            gameExit = True
+        mark = 0
+        for x in range(len(field)):
+            mark = field[x]
+            if(mark == 1):
+                gameDisplay.blit(captain,(128*x,128))
+            elif(mark == 2):
+                gameDisplay.blit(person,(128*x,128))
+            elif(mark == 3):
+                gameDisplay.blit(ship,(128*x,128))
+            elif(mark == 4):
+                gameDisplay.blit(cannon,(128*x,128))
+            elif(mark == 5):
+                gameDisplay.blit(chest,(128*x,128))
+            elif(mark == 6):
+                gameDisplay.blit(wheel,(128*x,128))
         
-        pygame.display.update()
+        pygame.display.flip()
         clock.tick(10)
 
 
