@@ -23,7 +23,26 @@ chest = pygame.image.load('chest.png')
 wheel = pygame.image.load('wheel.png')
 def player(x,y):
     gameDisplay.blit(person,(x,y))
-
+stats = [10,10,10,10]
+#Reputation, Resources, Ship Health, Crew Health
+def score(stats, field, state):
+    if(state == "l"):
+        fore, aft = field[2],field[4]
+    else:
+        fore, aft = field[4],field[2]
+    #Add or subtract stats based on input
+    #2: Person
+    #3: Ship
+    #4: Cannon
+    #5: Chest
+    #6: Wheel
+    if(fore == 2):
+        if(stats[3] >= 10):
+            stats[3] = 10
+        else:
+            stats[3] += 1
+            stats[1] -=1
+    
 field=[]
 for x in range(x_field):
     field.append(0)
@@ -33,10 +52,22 @@ start = True
 def swap(field, pos1, pos2):
     field[pos1],field[pos2]=field[pos2],field[pos1]
     return field
-
+def move_left(field):
+    field[3 - 1]=0
+    for x in range(2,0,-1):
+        if(field[x]<field[x-1]):
+            swap(field,x,x-1)
+    field[0]=randint(2,6)
+def move_right(field):
+    field[3 + 1] = 0
+    for x in range(4,6,1):
+        if(field[x]<field[x+1]):
+            swap(field,x,x+1)
+    field[6]=randint(2,6)
 def game_loop():
     global field
     global start
+    global stats
     gameExit = False
     pressed = False
 
@@ -57,9 +88,9 @@ def game_loop():
             try:
                 if event.type == pygame.KEYDOWN and pressed == False:
                     if event.key == pygame.K_LEFT:
-                        print("Left")
+                        move_left(field)
                     if event.key == pygame.K_RIGHT:
-                        print("Right")
+                        move_right(field)
                     pressed = True
 
                 if event.type == pygame.KEYUP:
