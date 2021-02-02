@@ -37,12 +37,20 @@ def score(stats, field, state):
     #5: Chest
     #6: Wheel
     if(fore == 2):
-        if(stats[3] >= 10):
-            stats[3] = 10
-        else:
-            stats[3] += 1
-            stats[1] -=1
-    
+        stats[3] += 1
+        stats[1] -=1
+    if(fore == 3):
+        stats[3] += 1
+        stats[1] -=1
+    if(fore == 4):
+        stats[3] += 1
+        stats[1] -=1
+    if(fore == 5):
+        stats[3] += 1
+        stats[1] -=1
+    if(fore == 6):
+        stats[3] += 1
+        stats[1] -=1
 field=[]
 for x in range(x_field):
     field.append(0)
@@ -75,11 +83,9 @@ def game_loop():
         if(start == True):
             for x in range(x_field):
                 if(field[x] == 1):
-                    print("Player")
-                else:
                     print("Generating...")
+                else:
                     field[x] = randint(2,6)
-                    print(field[x])
             start = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -89,8 +95,10 @@ def game_loop():
                 if event.type == pygame.KEYDOWN and pressed == False:
                     if event.key == pygame.K_LEFT:
                         move_left(field)
+                        stats=score(stats, field, "l")
                     if event.key == pygame.K_RIGHT:
                         move_right(field)
+                        stats=score(stats, field, "r")
                     pressed = True
 
                 if event.type == pygame.KEYUP:
