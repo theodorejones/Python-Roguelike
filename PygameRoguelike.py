@@ -24,7 +24,7 @@ wheel = pygame.image.load('wheel.png')
 def player(x,y):
     gameDisplay.blit(person,(x,y))
 stats = [10,10,10,10]
-#Reputation, Resources, Ship Health, Crew Health
+#Ship Health, Crew Health, Resources, Reputation
 def score(stats, field, state):
     if(state == "l"):
         fore, aft = field[2],field[4]
@@ -36,21 +36,75 @@ def score(stats, field, state):
     #4: Cannon
     #5: Chest
     #6: Wheel
+    ship, crew, gold, rep = stats[0],stats[1],stats[2],stats[3]
     if(fore == 2):
-        stats[3] += 1
-        stats[1] -=1
+        if(aft == 2):#Person
+            print("Success!")
+        if(aft == 3):#Ship
+            print("Success!")
+        if(aft == 4):#Cannon
+            print("Success!")
+        if(aft == 5):#Chest
+            print("Success!")
+        if(aft == 6):#Wheel
+            print("Success!")
     if(fore == 3):
-        stats[3] += 1
-        stats[1] -=1
+        if(aft == 2):#Person
+            print("Success!")
+        if(aft == 3):#Ship
+            print("Success!")
+        if(aft == 4):#Cannon
+            print("Success!")
+        if(aft == 5):#Chest
+            print("Success!")
+        if(aft == 6):#Wheel
+            print("Success!")
     if(fore == 4):
-        stats[3] += 1
-        stats[1] -=1
+        if(aft == 2):#Person
+            print("Success!")
+        if(aft == 3):#Ship
+            print("Success!")
+        if(aft == 4):#Cannon
+            print("Success!")
+        if(aft == 5):#Chest
+            print("Success!")
+        if(aft == 6):#Wheel
+            print("Success!")
     if(fore == 5):
-        stats[3] += 1
-        stats[1] -=1
+        if(aft == 2):#Person
+            print("Success!")
+        if(aft == 3):#Ship
+            print("Success!")
+        if(aft == 4):#Cannon
+            print("Success!")
+        if(aft == 5):#Chest
+            print("Success!")
+        if(aft == 6):#Wheel
+            print("Success!")
     if(fore == 6):
-        stats[3] += 1
-        stats[1] -=1
+        if(aft == 2):#Person
+            print("Success!")
+        if(aft == 3):#Ship
+            print("Success!")
+        if(aft == 4):#Cannon
+            print("Success!")
+        if(aft == 5):#Chest
+            print("Success!")
+        if(aft == 6):#Wheel
+            print("Success!")
+    if(rep > 10):
+        gold = gold + (rep - 10)
+        rep = 10
+    if(ship > 10):
+        crew = crew + (ship - 10)
+        ship = 10
+    if(crew > 10):
+        ship = ship + (crew - 10)
+        crew = 10
+    if(ship > 10):
+        gold = gold + (ship - 10)
+        ship = 10
+    stats[0],stats[1],stats[2],stats[3]=ship, crew, gold, rep
     return(stats)
 field=[]
 for x in range(x_field):
