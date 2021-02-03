@@ -51,6 +51,7 @@ def score(stats, field, state):
     if(fore == 6):
         stats[3] += 1
         stats[1] -=1
+    return(stats)
 field=[]
 for x in range(x_field):
     field.append(0)
@@ -96,9 +97,11 @@ def game_loop():
                     if event.key == pygame.K_LEFT:
                         move_left(field)
                         stats=score(stats, field, "l")
+                        print(stats)
                     if event.key == pygame.K_RIGHT:
                         move_right(field)
                         stats=score(stats, field, "r")
+                        print(stats)
                     pressed = True
 
                 if event.type == pygame.KEYUP:
