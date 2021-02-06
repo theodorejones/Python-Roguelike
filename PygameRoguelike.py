@@ -37,61 +37,46 @@ def score(stats, field, state):
     #5: Chest
     #6: Wheel
     ship, crew, gold, rep = stats[0],stats[1],stats[2],stats[3]
+    evade = False
     if(fore == 2):
-        if(aft == 2):#Person
-            print("Success!")
-        if(aft == 3):#Ship
-            print("Success!")
-        if(aft == 4):#Cannon
-            print("Success!")
-        if(aft == 5):#Chest
-            print("Success!")
-        if(aft == 6):#Wheel
-            print("Success!")
+        crew = crew + 2
+        gold = gold - 1
     if(fore == 3):
-        if(aft == 2):#Person
-            print("Success!")
-        if(aft == 3):#Ship
-            print("Success!")
-        if(aft == 4):#Cannon
-            print("Success!")
-        if(aft == 5):#Chest
-            print("Success!")
-        if(aft == 6):#Wheel
-            print("Success!")
+        ship = ship + 2
+        gold = gold - 1
     if(fore == 4):
-        if(aft == 2):#Person
-            print("Success!")
-        if(aft == 3):#Ship
-            print("Success!")
-        if(aft == 4):#Cannon
-            print("Success!")
-        if(aft == 5):#Chest
-            print("Success!")
-        if(aft == 6):#Wheel
-            print("Success!")
+        if(randint(0,1) == 0):
+            gold = gold + 1
+        else:
+            rep = rep + 1
     if(fore == 5):
-        if(aft == 2):#Person
-            print("Success!")
-        if(aft == 3):#Ship
-            print("Success!")
-        if(aft == 4):#Cannon
-            print("Success!")
-        if(aft == 5):#Chest
-            print("Success!")
-        if(aft == 6):#Wheel
-            print("Success!")
+        gold = gold + 1
+        if(randint(0,1) == 0):
+            crew = crew + 1
+        else:
+            rep = rep + 1
     if(fore == 6):
-        if(aft == 2):#Person
-            print("Success!")
-        if(aft == 3):#Ship
-            print("Success!")
-        if(aft == 4):#Cannon
-            print("Success!")
-        if(aft == 5):#Chest
-            print("Success!")
-        if(aft == 6):#Wheel
-            print("Success!")
+        evade = True
+    if(aft == 2):
+        crew = crew - 1
+    if(aft == 3):
+        ship = ship - 1
+    if(aft == 4):
+        if(evade):
+            rep = rep + 1
+        else:
+            ship = ship - 2
+    if(aft == 5):
+        if(randint(0,1) == 0):
+            crew = crew - 1
+        else:
+            rep = rep - 1
+    if(aft == 6):
+        if(randint(0,1) == 0):
+            ship = ship - 1
+        else:
+            rep = rep - 1
+            
     if(rep > 10):
         gold = gold + (rep - 10)
         rep = 10
@@ -157,7 +142,7 @@ def game_loop():
                         stats=score(stats, field, "r")
                         print(stats)
                     pressed = True
-
+                    print(stats)
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                         pressed = False
