@@ -15,12 +15,8 @@ gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Will Of The Dungeon')
 clock = pygame.time.Clock()
 
-captain = pygame.image.load('captain.png')
-person = pygame.image.load('person.png')
-ship = pygame.image.load('ship.png')
-cannon = pygame.image.load('cannon.png')
-chest = pygame.image.load('chest.png')
-wheel = pygame.image.load('wheel.png')
+#captain = pygame.image.load('')
+
 def player(x,y):
     gameDisplay.blit(person,(x,y))
 stats = [10,10,10,10]
@@ -30,66 +26,7 @@ def score(stats, field, state):
         fore, aft = field[2],field[4]
     else:
         fore, aft = field[4],field[2]
-    #Add or subtract stats based on input
-    #2: Person
-    #3: Ship
-    #4: Cannon
-    #5: Chest
-    #6: Wheel
-    ship, crew, gold, rep = stats[0],stats[1],stats[2],stats[3]
-    evade = False
-    if(fore == 2):
-        crew = crew + 2
-        gold = gold - 1
-    if(fore == 3):
-        ship = ship + 2
-        gold = gold - 1
-    if(fore == 4):
-        if(randint(0,1) == 0):
-            gold = gold + 1
-        else:
-            rep = rep + 1
-    if(fore == 5):
-        gold = gold + 1
-        if(randint(0,1) == 0):
-            crew = crew + 1
-        else:
-            rep = rep + 1
-    if(fore == 6):
-        evade = True
-    if(aft == 2):
-        crew = crew - 1
-    if(aft == 3):
-        ship = ship - 1
-    if(aft == 4):
-        if(evade):
-            rep = rep + 1
-        else:
-            ship = ship - 2
-    if(aft == 5):
-        if(randint(0,1) == 0):
-            crew = crew - 1
-        else:
-            rep = rep - 1
-    if(aft == 6):
-        if(randint(0,1) == 0):
-            ship = ship - 1
-        else:
-            rep = rep - 1
-            
-    if(rep > 10):
-        gold = gold + (rep - 10)
-        rep = 10
-    if(ship > 10):
-        crew = crew + (ship - 10)
-        ship = 10
-    if(crew > 10):
-        ship = ship + (crew - 10)
-        crew = 10
-    if(ship > 10):
-        gold = gold + (ship - 10)
-        ship = 10
-    stats[0],stats[1],stats[2],stats[3]=ship, crew, gold, rep
+    
     return(stats)
 field=[]
 for x in range(x_field):
@@ -97,6 +34,13 @@ for x in range(x_field):
 field[3]=1
 
 start = True
+def shop(gold):
+    level = int(gold/100)
+    print("Congratulations on having earned "+str(level) + " cards!")
+    return level
+def score(stats, field, direction):
+    stats[1] = stats[1] + 1
+    return stats
 def swap(field, pos1, pos2):
     field[pos1],field[pos2]=field[pos2],field[pos1]
     return field
@@ -116,6 +60,8 @@ def game_loop():
     global field
     global start
     global stats
+    global level
+    total_gold = 0
     gameExit = False
     pressed = False
 
@@ -140,17 +86,21 @@ def game_loop():
                     if event.key == pygame.K_RIGHT:
                         move_right(field)
                         stats=score(stats, field, "r")
-                        print(stats)
                     pressed = True
-                    print(stats)
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                         pressed = False
             except:
                 print("Boundary")
+            if(stats[1] > 10):
+                total_gold = total_gold + (stats[1] - 10)
+                stats[1] = 10
+                print(total_gold)
+            print(stats)
+            level = shop(total_gold)
         gameDisplay.fill(white)
         mark = 0
-        for x in range(len(field)):
+        '''for x in range(len(field)):
             mark = field[x]
             if(mark == 1):
                 gameDisplay.blit(captain,(128*x,128))
@@ -163,7 +113,7 @@ def game_loop():
             elif(mark == 5):
                 gameDisplay.blit(chest,(128*x,128))
             elif(mark == 6):
-                gameDisplay.blit(wheel,(128*x,128))
+                gameDisplay.blit(wheel,(128*x,128))'''
         
         pygame.display.flip()
         clock.tick(10)
