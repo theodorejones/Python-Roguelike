@@ -1,10 +1,10 @@
 import pygame
 from random import randint
 pygame.init()
-x_field = 7
+x_field = 200
 y_field = 1
 pixel = 128
-display_width = 7 * pixel
+display_width = 3 * pixel
 display_height = 3 * pixel
 
 black = (0,0,0)
@@ -12,50 +12,34 @@ white = (255,255,255)
 red = (255,0,0)
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
-pygame.display.set_caption('Will Of The Dungeon')
+pygame.display.set_caption('Heaps Of Treasure')
 clock = pygame.time.Clock()
 
 #captain = pygame.image.load('')
 
 def player(x,y):
     gameDisplay.blit(person,(x,y))
-stats = [10,10,10,10]
-#Ship Health, Crew Health, Resources, Reputation
-def score(stats, field, state):
-    if(state == "l"):
-        fore, aft = field[2],field[4]
-    else:
-        fore, aft = field[4],field[2]
-    
-    return(stats)
+stats = [10,10,10]
+#Health, Loot, Navigation
+
 field=[]
 for x in range(x_field):
-    field.append(0)
-field[3]=1
+    field.append(randint(2,20))
+
+field[0]=1
 
 start = True
 def shop(gold):
     level = int(gold/100)
     print("Congratulations on having earned "+str(level) + " cards!")
     return level
-def score(stats, field, direction):
+def score(stats, item):
     stats[1] = stats[1] + 1
     return stats
 def swap(field, pos1, pos2):
     field[pos1],field[pos2]=field[pos2],field[pos1]
     return field
-def move_left(field):
-    field[3 - 1]=0
-    for x in range(2,0,-1):
-        if(field[x]<field[x-1]):
-            swap(field,x,x-1)
-    field[0]=randint(2,6)
-def move_right(field):
-    field[3 + 1] = 0
-    for x in range(4,6,1):
-        if(field[x]<field[x+1]):
-            swap(field,x,x+1)
-    field[6]=randint(2,6)
+
 def game_loop():
     global field
     global start
@@ -66,6 +50,7 @@ def game_loop():
     pressed = False
 
     while not gameExit:
+        i = 1
         if(start == True):
             for x in range(x_field):
                 if(field[x] == 1):
@@ -80,12 +65,11 @@ def game_loop():
             try:
                 if event.type == pygame.KEYDOWN and pressed == False:
                     if event.key == pygame.K_LEFT:
-                        move_left(field)
-                        stats=score(stats, field, "l")
-                        print(stats)
+                        swap(field, i, 2*i+1)
+                        i = 2*i+1
                     if event.key == pygame.K_RIGHT:
-                        move_right(field)
-                        stats=score(stats, field, "r")
+                        swap(field, i, 2*i+2)
+                        i = 2*i+2
                     pressed = True
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
