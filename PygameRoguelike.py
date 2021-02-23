@@ -15,7 +15,24 @@ gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Heaps Of Treasure')
 clock = pygame.time.Clock()
 
-#captain = pygame.image.load('')
+attack = pygame.image.load('attack.png')
+bow_arrow = pygame.image.load('bow_arrow.png')
+door = pygame.image.load('door.png')
+dragon = pygame.image.load('dragon.png')
+explorer = pygame.image.load('explorer.png')
+golem = pygame.image.load('golem.png')
+health = pygame.image.load('bow_arrow.png')
+key = pygame.image.load('key.png')
+knight = pygame.image.load('knight.png')
+lance = pygame.image.load('lance.png')
+lockpick = pygame.image.load('lockpick.png')
+loot = pygame.image.load('loot.png')
+pickax = pygame.image.load('pickax.png')
+rapier = pygame.image.load('rapier.png')
+skeleton = pygame.image.load('skeleton.png')
+spikes = pygame.image.load('spikes.png')
+stairs = pygame.image.load('stairs.png')
+sword = pygame.image.load('sword.png')
 
 def player(x,y):
     gameDisplay.blit(person,(x,y))
@@ -24,9 +41,11 @@ stats = [10,10,10]
 
 field=[]
 for x in range(x_field):
-    field.append(randint(2,20))
+    field.append(randint(2,19))
 
 field[0]=1
+
+print(field)
 
 start = True
 def shop(gold):
