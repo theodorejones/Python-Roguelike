@@ -56,8 +56,16 @@ def score(stats, item):
     stats[1] = stats[1] + 1
     return stats
 def swap(field, pos1, pos2):
-    field[pos1],field[pos2]=field[pos2],field[pos1]
+    try:
+        field[pos1],field[pos2]=field[pos2],field[pos1]
+    except:
+        field = field
     return field
+def reset(field):
+    for x in field:
+        if(field[x] == 1):
+            swap(field, x, len(field))
+        swap(field, 0, len(field))
 
 def game_loop():
     global field
@@ -81,20 +89,19 @@ def game_loop():
             if event.type == pygame.QUIT:
                 gameExit = True
 
-            try:
-                if event.type == pygame.KEYDOWN and pressed == False:
-                    if event.key == pygame.K_LEFT:
-                        swap(field, i, 2*i+1)
-                        i = 2*i+1
-                    if event.key == pygame.K_RIGHT:
-                        swap(field, i, 2*i+2)
-                        i = 2*i+2
-                    pressed = True
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                        pressed = False
-            except:
-                print("Boundary")
+            if event.type == pygame.KEYDOWN and pressed == False:
+                if event.key == pygame.K_LEFT:
+                    swap(field, i, 2*i+1)
+                    i = 2*i+1
+                if event.key == pygame.K_RIGHT:
+                    swap(field, i, 2*i+2)
+                    i = 2*i+2
+                if event.key == pygame.K_UP:
+                    reset(field)
+                pressed = True
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    pressed = False
             if(stats[1] > 10):
                 total_gold = total_gold + (stats[1] - 10)
                 stats[1] = 10
