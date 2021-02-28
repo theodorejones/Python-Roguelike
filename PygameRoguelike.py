@@ -65,7 +65,7 @@ def reset(field):
     for x in field:
         if(field[x] == 1):
             swap(field, x, len(field))
-        swap(field, 0, len(field))
+    swap(field, 0, len(field))
 
 def game_loop():
     global field
@@ -77,13 +77,13 @@ def game_loop():
     pressed = False
 
     while not gameExit:
-        i = 1
+        i = 0
         if(start == True):
             for x in range(x_field):
                 if(field[x] == 1):
                     print("Generating...")
                 else:
-                    field[x] = randint(2,6)
+                    field[x] = randint(2,19)
             start = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -98,9 +98,10 @@ def game_loop():
                     i = 2*i+2
                 if event.key == pygame.K_UP:
                     reset(field)
+                    i = 0
                 pressed = True
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP:
                     pressed = False
             if(stats[1] > 10):
                 total_gold = total_gold + (stats[1] - 10)
@@ -110,21 +111,11 @@ def game_loop():
             level = shop(total_gold)
         gameDisplay.fill(white)
         mark = 0
-        '''for x in range(len(field)):
-            mark = field[x]
+        for x in range(2):
             if(mark == 1):
-                gameDisplay.blit(captain,(128*x,128))
+                gameDisplay.blit(explorer,(128*x,128))
             elif(mark == 2):
-                gameDisplay.blit(person,(128*x,128))
-            elif(mark == 3):
-                gameDisplay.blit(ship,(128*x,128))
-            elif(mark == 4):
-                gameDisplay.blit(cannon,(128*x,128))
-            elif(mark == 5):
-                gameDisplay.blit(chest,(128*x,128))
-            elif(mark == 6):
-                gameDisplay.blit(wheel,(128*x,128))'''
-        
+                gameDisplay.blit(explorer,(128*x,128))
         pygame.display.flip()
         clock.tick(10)
 
